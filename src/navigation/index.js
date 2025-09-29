@@ -1,27 +1,28 @@
 import { NavigationContainer } from "@react-navigation/native";
-
 import { ActivityIndicator } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
-import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-import { ScreenContainer } from "../styles/globalStyles";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AppTabs from "./AppTabs";
+import { GlobalContainer } from "../styles/globalStyles";
 
 export default function Navigation() {
   const { user, loading } = useAuth();
 
   if (loading)
     return (
-      <ScreenContainer>
+      <GlobalContainer>
         <ActivityIndicator size={80} style={{ flex: 1 }} />
-      </ScreenContainer>
+      </GlobalContainer>
     );
 
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
+      <GlobalContainer>
+        <NavigationContainer>
+          {user ? <AppTabs /> : <AuthStack />}
+        </NavigationContainer>
+      </GlobalContainer>
     </GestureHandlerRootView>
   );
 }

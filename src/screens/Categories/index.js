@@ -63,7 +63,9 @@ export default function Categories({ navigation }) {
           renderItem={({ item }) => (
             <CategoryCard
               category={item}
-              onPress={() => notify.success("Clicado")}
+              onPress={() =>
+                navigation.navigate("Products", { category: item })
+              }
             />
           )}
           refreshing={refreshing}

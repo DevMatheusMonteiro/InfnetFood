@@ -3,11 +3,11 @@ import { BodyText, H3 } from "../../styles/globalStyles";
 import { Container } from "./styles";
 import { useThemeCustom } from "../../contexts/ThemeContext";
 
-export function CategoryCard({ category, onPress }) {
+export function ProductCard({ product, onPress }) {
   const { theme } = useThemeCustom();
   return (
     <ImageBackground
-      source={{ uri: category.image }}
+      source={{ uri: product.image }}
       resizeMode="cover"
       style={{ borderRadius: theme.radius.lg, overflow: "hidden" }}
     >
@@ -22,14 +22,10 @@ export function CategoryCard({ category, onPress }) {
             fontFamily: theme.fonts.secondaryBold,
           }}
         >
-          {category.name}
+          {product.name}
         </H3>
-        <BodyText
-          numberOfLines={5}
-          ellipsizeMode="tail"
-          style={{ fontFamily: theme.fonts.secondary }}
-        >
-          {category.description}
+        <BodyText style={{ fontFamily: theme.fonts.secondaryBold }}>
+          R$ {product.price.toString().replace(".", ",")}
         </BodyText>
       </Container>
     </ImageBackground>
