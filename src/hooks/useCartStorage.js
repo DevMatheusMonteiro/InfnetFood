@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function useCartStorage() {
@@ -27,7 +27,7 @@ export function useCartStorage() {
 
   async function removeFromCart(productId) {
     const newCart = [...cart];
-    const index = newCart.findIndex((p) => p.id !== productId);
+    const index = newCart.findIndex((p) => p.id === productId);
     if (index > -1 && newCart[index].quantity > 1) {
       newCart[index].quantity -= 1;
     } else {
@@ -40,6 +40,10 @@ export function useCartStorage() {
   async function clearCart() {
     await saveCart([]);
   }
+
+  useEffect(() => {
+    loadCart();
+  }, []);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
