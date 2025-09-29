@@ -24,6 +24,7 @@ export default function Products({ route }) {
           name: p.strMeal,
           image: p.strMealThumb,
           price: Number((Math.random() * 100).toFixed(2)),
+          quantity: 0,
         }));
 
         setProducts(mappedProducts);
@@ -65,12 +66,7 @@ export default function Products({ route }) {
           contentContainerStyle={{ gap: 16, padding: 24 }}
           data={products}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <ProductCard
-              product={item}
-              onPress={() => notify.success("Clicado")}
-            />
-          )}
+          renderItem={({ item }) => <ProductCard product={item} />}
           refreshing={refreshing}
           onRefresh={handleRefresh}
         />
