@@ -15,6 +15,7 @@ export const lightTheme = {
     lightBlue: "#8BBBD9",
     background: "#FFFFFF",
     surface: "#F5F5F5",
+    overlay: "#f5f5f5bb",
     text: "#000000",
   },
   radius: {
@@ -50,6 +51,7 @@ export const darkTheme = {
     lightBlue: "#4B6FA3",
     background: "#121212",
     surface: "#1E1E1E",
+    overlay: "#1e1e1ecc",
     text: "#FFFFFF",
   },
   radius: {
