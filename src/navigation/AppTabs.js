@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons"; // ou qualquer outra lib de ícones
 
 import AppStack from "./AppStack";
+import Cart from "../screens/Cart";
 import { useThemeCustom } from "../contexts/ThemeContext";
 
 const Tabs = createBottomTabNavigator();
@@ -39,6 +40,8 @@ export default function AppTabs() {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
+          } else if (route.name === "Cart") {
+            iconName = focused ? "cart" : "cart-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -47,6 +50,7 @@ export default function AppTabs() {
     >
       <Tabs.Screen name="Home" component={AppStack} />
       <Tabs.Screen name="Profile" component={AppStack} />
+      <Tabs.Screen name="Cart" component={Cart} />
     </Tabs.Navigator>
   );
 }
