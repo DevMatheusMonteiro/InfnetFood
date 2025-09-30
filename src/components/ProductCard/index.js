@@ -4,10 +4,14 @@ import { Container, AddRemoveContainer } from "./styles";
 import { useThemeCustom } from "../../contexts/ThemeContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { IconButton } from "../IconButton";
-import { useCartStorage } from "../../hooks/useCartStorage";
 import { useState } from "react";
 
-export function ProductCard({ product, addToCart, removeFromCart }) {
+export function ProductCard({
+  product,
+  addToCart,
+  removeFromCart,
+  hideButtons = false,
+}) {
   const [quantity, setQuantity] = useState(product.quantity);
   const { theme } = useThemeCustom();
 
@@ -24,7 +28,10 @@ export function ProductCard({ product, addToCart, removeFromCart }) {
     <ImageBackground
       source={{ uri: product.image }}
       resizeMode="cover"
-      style={{ borderRadius: theme.radius.lg, overflow: "hidden" }}
+      style={{
+        borderRadius: theme.radius.lg,
+        overflow: "hidden",
+      }}
     >
       <Container>
         <H3
@@ -45,40 +52,46 @@ export function ProductCard({ product, addToCart, removeFromCart }) {
             .toFixed(2)
             .replace(".", ",")}
         </BodyText>
-        <AddRemoveContainer>
-          <IconButton
-            disabled={quantity == 0}
-            onPress={handleRemoveFromCart}
-            icon={
-              <Ionicons
-                name="remove-circle"
-                size={24}
-                color={
-                  theme.title === "light"
-                    ? theme.colors.darkBlue
-                    : theme.colors.lightBlue
-                }
-              />
-            }
-          />
+        {!hideButtons ? (
+          <AddRemoveContainer>
+            <IconButton
+              disabled={quantity == 0}
+              onPress={handleRemoveFromCart}
+              icon={
+                <Ionicons
+                  name="remove-circle"
+                  size={24}
+                  color={
+                    theme.title === "light"
+                      ? theme.colors.darkBlue
+                      : theme.colors.lightBlue
+                  }
+                />
+              }
+            />
+            <BodyText style={{ fontFamily: theme.fonts.secondaryBold }}>
+              {quantity}
+            </BodyText>
+            <IconButton
+              onPress={handleAddToCart}
+              icon={
+                <Ionicons
+                  name="add-circle"
+                  size={24}
+                  color={
+                    theme.title === "light"
+                      ? theme.colors.darkBlue
+                      : theme.colors.lightBlue
+                  }
+                />
+              }
+            />
+          </AddRemoveContainer>
+        ) : (
           <BodyText style={{ fontFamily: theme.fonts.secondaryBold }}>
-            {quantity}
+            {quantity}x
           </BodyText>
-          <IconButton
-            onPress={handleAddToCart}
-            icon={
-              <Ionicons
-                name="add-circle"
-                size={24}
-                color={
-                  theme.title === "light"
-                    ? theme.colors.darkBlue
-                    : theme.colors.lightBlue
-                }
-              />
-            }
-          />
-        </AddRemoveContainer>
+        )}
       </Container>
     </ImageBackground>
   );

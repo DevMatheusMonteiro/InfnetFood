@@ -4,6 +4,7 @@ import { ScreenContainer, H1, BodyText } from "../../styles/globalStyles";
 import { FlatList, View } from "react-native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OrdeItem } from "../../components/OrderItem";
 
 export default function Orders({ navigation }) {
   const [orders, setOrders] = useState([]);
@@ -16,10 +17,11 @@ export default function Orders({ navigation }) {
       if (!isRefreshing) setLoading(true);
 
       const data = await AsyncStorage.getItem("@orders");
-      if (data) setOrders(JSON.parse(data));
 
+      if (data) setOrders(JSON.parse(data));
+      notify.info(data);
       if (isRefreshing) {
-        notify.info("Pedidos atualizados com sucesso!");
+        // notify.info("Pedidos atualizados com sucesso!");
       }
     } catch (error) {
       console.error(error);
@@ -49,10 +51,11 @@ export default function Orders({ navigation }) {
         <ActivityIndicator size={80} style={{ flex: 1 }} />
       ) : (
         <FlatList
+          ListEmptyComponent={<BodyText>Sem pedidos!</BodyText>}
           contentContainerStyle={{ gap: 16, padding: 24 }}
           data={orders}
           keyExtractor={(item, i) => i}
-          renderItem={({ item }) => <BodyText>{JSON.stringify(item)}</BodyText>}
+          renderItem={({ item }) => <OrdeItem order={item} />}
           refreshing={refreshing}
           onRefresh={handleRefresh}
         />

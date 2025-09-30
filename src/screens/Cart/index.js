@@ -17,7 +17,10 @@ export default function Cart({ navigation }) {
 
   async function handleOrder() {
     const order = { cart, total };
-    await AsyncStorage.setItem("@orders", JSON.stringify(order));
+    const data = await AsyncStorage.getItem("@orders");
+    const orders = data ? JSON.parse(data) : [];
+    orders.push(order);
+    await AsyncStorage.setItem("@orders", JSON.stringify(orders));
     notify.success(
       "Pedido realizado com sucesso!",
       `R$ ${total.toFixed(2).replace(".", ",")}`
