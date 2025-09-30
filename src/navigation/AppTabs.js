@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons"; // ou qualquer outra lib de ícon
 import AppStack from "./AppStack";
 import Cart from "../screens/Cart";
 import { useThemeCustom } from "../contexts/ThemeContext";
+import Profile from "../screens/Profile";
+import Orders from "../screens/Orders";
 
 const Tabs = createBottomTabNavigator();
 
@@ -42,6 +44,8 @@ export default function AppTabs() {
             iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Cart") {
             iconName = focused ? "cart" : "cart-outline";
+          } else if (route.name === "Orders") {
+            iconName = focused ? "receipt" : "receipt-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -49,8 +53,9 @@ export default function AppTabs() {
       })}
     >
       <Tabs.Screen name="Home" component={AppStack} />
-      <Tabs.Screen name="Profile" component={AppStack} />
       <Tabs.Screen name="Cart" component={Cart} />
+      <Tabs.Screen name="Orders" component={Orders} />
+      <Tabs.Screen name="Profile" component={Profile} />
     </Tabs.Navigator>
   );
 }

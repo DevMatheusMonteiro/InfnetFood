@@ -1,18 +1,32 @@
-import { useEffect, useState, useCallback, use } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useToast } from "../../contexts/ToastContext";
 import { ScreenContainer, H1, BodyText } from "../../styles/globalStyles";
 import { FlatList } from "react-native";
 import { ProductCard } from "../../components/ProductCard";
+import { Button } from "../../components/Button";
 import { ActivityIndicator } from "react-native";
 import { useCartStorage } from "../../hooks/useCartStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Cart({ route }) {
-  const { cart, loadCart, addToCart, removeFromCart, total } = useCartStorage();
-  // const [total, setTotal] = useState(0);
-  // const [cart, setCart] = useState([]);
+export default function Cart({ navigation }) {
+  const { cart, loadCart, addToCart, removeFromCart, total, clearCart } =
+    useCartStorage();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const { notify } = useToast();
+
+  async function handleOrder() {
+    const order = { cart, total };
+    await AsyncStorage.setItem("@orders", JSON.stringify(order));
+    notify.success(
+      "Pedido realizado com sucesso!",
+      `R$ ${total.toFixed(2).replace(".", ",")}`
+    );
+
+    navigation.navigate("Home", { screen: "Categories" });
+    clearCart();
+  }
+
   const loadItems = useCallback(
     async (isRefreshing = false) => {
       try {
@@ -51,7 +65,7 @@ export default function Cart({ route }) {
       <H1 style={{ paddingHorizontal: 24 }}>
         Total: R$ {total.toFixed(2).replace(".", ",")}
       </H1>
-      {loading && cart.length > 0 ? (
+      {loading ? (
         <ActivityIndicator size={80} style={{ flex: 1 }} />
       ) : (
         <FlatList
@@ -69,6 +83,12 @@ export default function Cart({ route }) {
           onRefresh={handleRefresh}
         />
       )}
+
+      <Button
+        label="Realizar pedido"
+        onPress={handleOrder}
+        style={{ marginBottom: 8 }}
+      />
     </ScreenContainer>
   );
 }
