@@ -5,8 +5,10 @@ import { ScreenContainer, H1, BodyText } from "../../styles/globalStyles";
 import { FlatList } from "react-native";
 import { ProductCard } from "../../components/ProductCard";
 import { ActivityIndicator } from "react-native";
+import { useCartStorage } from "../../hooks/useCartStorage";
 
 export default function Products({ route }) {
+  const { addToCart, removeFromCart } = useCartStorage();
   const { category } = route.params;
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -17,15 +19,16 @@ export default function Products({ route }) {
     async (isRefreshing = false) => {
       try {
         if (!isRefreshing) setLoading(true);
-
         const res = await fetchProductsByCategory(category.name);
-        const mappedProducts = res.meals.map((p) => ({
-          id: p.idMeal,
-          name: p.strMeal,
-          image: p.strMealThumb,
-          price: Number((Math.random() * 100).toFixed(2)),
-          quantity: 0,
-        }));
+        const mappedProducts = res.meals.map((p) => {
+          return {
+            id: p.idMeal,
+            name: p.strMeal,
+            image: p.strMealThumb,
+            price: Number((Math.random() * 100).toFixed(2)),
+            quantity: 0,
+          };
+        });
 
         setProducts(mappedProducts);
 
@@ -66,7 +69,13 @@ export default function Products({ route }) {
           contentContainerStyle={{ gap: 16, padding: 24 }}
           data={products}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ProductCard product={item} />}
+          renderItem={({ item }) => (
+            <ProductCard
+              product={item}
+              addToCart={addToCart}
+              removeFromCart={removeFromCart}
+            />
+          )}
           refreshing={refreshing}
           onRefresh={handleRefresh}
         />

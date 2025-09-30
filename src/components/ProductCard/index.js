@@ -7,9 +7,8 @@ import { IconButton } from "../IconButton";
 import { useCartStorage } from "../../hooks/useCartStorage";
 import { useState } from "react";
 
-export function ProductCard({ product }) {
-  const { addToCart, removeFromCart } = useCartStorage();
-  const [quantity, setQuantity] = useState(0);
+export function ProductCard({ product, addToCart, removeFromCart }) {
+  const [quantity, setQuantity] = useState(product.quantity);
   const { theme } = useThemeCustom();
 
   function handleAddToCart() {

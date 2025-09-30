@@ -9,6 +9,11 @@ export function useCartStorage() {
     if (data) setCart(JSON.parse(data));
   }
 
+  function getItem(product) {
+    const data = cart.find((p) => p.id === product.id);
+    return data;
+  }
+
   async function saveCart(newCart) {
     setCart(newCart);
     await AsyncStorage.setItem("@cart", JSON.stringify(newCart));
@@ -25,9 +30,9 @@ export function useCartStorage() {
     await saveCart(newCart);
   }
 
-  async function removeFromCart(productId) {
+  async function removeFromCart(product) {
     const newCart = [...cart];
-    const index = newCart.findIndex((p) => p.id === productId);
+    const index = newCart.findIndex((p) => p.id === product.id);
     if (index > -1 && newCart[index].quantity > 1) {
       newCart[index].quantity -= 1;
     } else {
@@ -41,11 +46,15 @@ export function useCartStorage() {
     await saveCart([]);
   }
 
-  useEffect(() => {
-    loadCart();
-  }, []);
-
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  return { cart, addToCart, removeFromCart, clearCart, total, loadCart };
+  return {
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    total,
+    loadCart,
+    getItem,
+  };
 }
