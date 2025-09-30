@@ -19,9 +19,9 @@ export default function Orders({ navigation }) {
       const data = await AsyncStorage.getItem("@orders");
 
       if (data) setOrders(JSON.parse(data));
-      notify.info(data);
+
       if (isRefreshing) {
-        // notify.info("Pedidos atualizados com sucesso!");
+        notify.info("Pedidos atualizados com sucesso!");
       }
     } catch (error) {
       console.error(error);
