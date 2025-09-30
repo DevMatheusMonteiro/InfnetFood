@@ -1,6 +1,6 @@
 # 🍔 InfnetFood
 
-Aplicativo desenvolvido em **React Native** com **Expo** para gerenciamento e exibição de produtos de categorias de um restaurante fictício.  
+Aplicativo desenvolvido em **React Native** com **Expo** para gerenciamento e exibição de produtos de categorias de um aplicativo de delivery fictício.  
 O projeto possui funcionalidades como listagem de produtos, carrinho de compras persistente e navegação entre telas.
 
 ---
