@@ -7,6 +7,7 @@ import { Button } from "../../components/Button";
 import { ActivityIndicator } from "react-native";
 import { useCartStorage } from "../../hooks/useCartStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Cart({ navigation }) {
   const { cart, loadCart, addToCart, removeFromCart, total, clearCart } =
@@ -15,48 +16,41 @@ export default function Cart({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const { notify } = useToast();
 
-  async function handleOrder() {
+  async function handleNavigateToCheckout() {
     const order = { cart, total };
-    const data = await AsyncStorage.getItem("@orders");
-    const orders = data ? JSON.parse(data) : [];
-    orders.push(order);
-    await AsyncStorage.setItem("@orders", JSON.stringify(orders));
-    notify.success(
-      "Pedido realizado com sucesso!",
-      `R$ ${total.toFixed(2).replace(".", ",")}`
-    );
-
-    navigation.navigate("Home", { screen: "Categories" });
-    clearCart();
+    navigation.navigate("Checkout", { order });
   }
 
-  const loadItems = useCallback(
-    async (isRefreshing = false) => {
-      try {
-        if (!isRefreshing) setLoading(true);
+  const loadItems = useCallback(async (isRefreshing = false) => {
+    try {
+      if (!isRefreshing) setLoading(true);
 
-        await loadCart();
+      await loadCart();
 
-        if (isRefreshing) {
-          notify.info("Carrinho atualizado com sucesso!");
-        }
-      } catch (error) {
-        console.error(error);
-        notify.error("Erro!", "Erro ao carregar lista de compras!");
-      } finally {
-        if (isRefreshing) {
-          setRefreshing(false);
-        } else {
-          setLoading(false);
-        }
+      if (isRefreshing) {
+        notify.info("Carrinho atualizado com sucesso!");
       }
-    },
-    [total]
+    } catch (error) {
+      console.error(error);
+      notify.error("Erro!", "Erro ao carregar lista de compras!");
+    } finally {
+      if (isRefreshing) {
+        setRefreshing(false);
+      } else {
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadItems();
+    }, [])
   );
 
-  useEffect(() => {
-    loadItems();
-  }, [loadItems]);
+  // useEffect(() => {
+  //   loadItems();
+  // }, [loadItems]);
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
@@ -72,6 +66,7 @@ export default function Cart({ navigation }) {
         <ActivityIndicator size={80} style={{ flex: 1 }} />
       ) : (
         <FlatList
+          ListEmptyComponent={<BodyText>Carrinho vazio!</BodyText>}
           contentContainerStyle={{ gap: 16, padding: 24 }}
           data={cart}
           keyExtractor={(item) => item.id}
@@ -88,9 +83,10 @@ export default function Cart({ navigation }) {
       )}
 
       <Button
+        disabled={cart.length == 0}
         label="Realizar pedido"
-        onPress={handleOrder}
-        style={{ marginBottom: 8 }}
+        onPress={handleNavigateToCheckout}
+        style={{ marginBottom: 8, maxWidth: 200, marginHorizontal: "auto" }}
       />
     </ScreenContainer>
   );

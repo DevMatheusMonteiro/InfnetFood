@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { useToast } from "../../contexts/ToastContext";
 import { ScreenContainer, H1, BodyText } from "../../styles/globalStyles";
-import { FlatList, View } from "react-native";
+import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { OrdeItem } from "../../components/OrderItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Orders({ navigation }) {
   const [orders, setOrders] = useState([]);
@@ -35,9 +36,15 @@ export default function Orders({ navigation }) {
     }
   }, []);
 
-  useEffect(() => {
-    loadItems();
-  }, [loadItems]);
+  useFocusEffect(
+    useCallback(() => {
+      loadItems();
+    }, [])
+  );
+
+  // useEffect(() => {
+  //   loadItems();
+  // }, [loadItems]);
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);

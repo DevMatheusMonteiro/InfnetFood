@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.TouchableOpacity`
   background: ${({ theme }) => theme.colors.mediumBlue};
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   width: 100%;
   padding: 12px 20px;
   flex-direction: row;

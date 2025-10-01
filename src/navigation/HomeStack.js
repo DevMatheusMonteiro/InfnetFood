@@ -5,7 +5,7 @@ import Products from "../screens/Products";
 
 const Stack = createNativeStackNavigator();
 
-export default function AppStack() {
+export default function HomeStack() {
   return (
     <Stack.Navigator
       initialRouteName="Categories"
