@@ -1,10 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
-import { useToast } from "../../contexts/ToastContext";
 import { H3 } from "../../styles/globalStyles";
 import { FlatList } from "react-native";
 import { ProductCard } from "../ProductCard";
-import { Button } from "../../components/Button";
-import { ActivityIndicator } from "react-native";
 import { Container } from "./styles";
 
 export function OrdeItem({ order }) {
