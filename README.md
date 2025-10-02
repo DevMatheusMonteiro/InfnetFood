@@ -64,6 +64,16 @@ npm run android
 npm run ios
 ```
 
+## Mock de usuário para teste
+
+```js
+const user = {
+  name: "Matheus Monteiro"
+  email: "matheus@email.com"
+  senha: "123456"
+}
+```
+
 ## 🛠️ Funcionalidades
 
 - Listagem de categorias e produtos.
@@ -76,12 +86,16 @@ npm run ios
 
 ## 📸 Screenshots
 
-- Página inicial:
-  ![Página inicial](readmeImages/image.png)
+- Home Stack:
+  ![Categorias](readmeImages/Home/categories.png)
+  ![Produtos](readmeImages/Home/products.png)
 - Carrinho de compras:
-  ![Carrinho de compras](readmeImages/image-1.png)
+  ![Carrinho](readmeImages/Cart/cart.png)
+  ![Checkout](readmeImages/Cart/checkout.png)
 - Histórico de Pedidos:
-  ![Histórico de Pedidos](readmeImages/image-2.png)
+  ![Histórico de Pedidos](readmeImages/Order/orders.png)
+- Perfil:
+  ![Perfil](readmeImages/Profile/profile.png)
 
 ## 👨‍💻 Autor
 

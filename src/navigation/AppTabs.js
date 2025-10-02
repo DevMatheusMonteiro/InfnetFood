@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { useThemeCustom } from "../contexts/ThemeContext";
 
 import HomeStack from "./HomeStack";
-import { useThemeCustom } from "../contexts/ThemeContext";
 import Profile from "../screens/Profile";
 import Orders from "../screens/Orders";
 import CartStack from "./CartStack";
-import Map from "../screens/Map";
+import MapStack from "./MapStack";
 
 const Tabs = createBottomTabNavigator();
 
@@ -47,7 +47,7 @@ export default function AppTabs() {
             iconName = focused ? "cart" : "cart-outline";
           } else if (route.name === "Orders") {
             iconName = focused ? "receipt" : "receipt-outline";
-          } else if (route.name === "Map") {
+          } else if (route.name === "MapStack") {
             iconName = focused ? "map" : "map-outline";
           }
 
@@ -56,7 +56,11 @@ export default function AppTabs() {
       })}
     >
       <Tabs.Screen name="Home" component={HomeStack} />
-      <Tabs.Screen name="Map" component={Map} />
+      <Tabs.Screen
+        name="MapStack"
+        component={MapStack}
+        options={{ title: "Mapa" }}
+      />
       <Tabs.Screen
         name="CartStack"
         component={CartStack}
